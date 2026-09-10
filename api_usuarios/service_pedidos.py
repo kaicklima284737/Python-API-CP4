@@ -1,20 +1,22 @@
 """
-Lista de compras individual de cada usuário (tabela `pedidos`) e o
-histórico de alterações (tabela `pedidos_historico`).
+Camada de Serviço (Service / Business Logic Layer) de Pedidos/Carrinho.
 
-Cada linha de `pedidos` é um produto (da tabela `produtos`) que o
-usuário colocou na própria lista, com uma quantidade. O item pode ser
-editado (quantidade) ou removido; nos dois casos, e também na criação,
-uma linha é gravada em `pedidos_historico`, preservando o registro
-mesmo depois de o item ser removido da lista atual.
+Concentra a regra de negócio da lista de compras individual do usuário e 
+o histórico imutável de audit trail (auditoria).
 """
 
 from database import get_connection, agora
 from service_usuarios import buscar_usuario
 from service_produtos import buscar_produto
 
-
 def _registrar_historico(cursor, pedido_id, usuario_id, produto_id, quantidade, acao):
+    """
+    Função Privada (indicada pelo underline '_'):
+    Grava uma linha de histórico para cada alteração no carrinho.
+    
+    Reaproveita a mesma transação (cursor) aberta pela função chamadora 
+    para garantir atomicidade (ambas as operações acontecem ou nenhuma acontece).
+    """
     cursor.execute(
         """
         INSERT INTO pedidos_historico
@@ -26,7 +28,11 @@ def _registrar_historico(cursor, pedido_id, usuario_id, produto_id, quantidade, 
 
 
 def _linha_para_dict(linha):
-    """Converte uma linha da consulta (com join) em um dicionário amigável."""
+    """
+    Função Auxiliar / DTO (Data Transfer Object) manual:
+    Converte o resultado bruto do banco (sqlite3.Row) proveniente de um JOIN
+    em um dicionário limpo para a resposta da API.
+    """
     return {
         "pedido_id": linha["id"],
         "usuario_id": linha["usuario_id"],
@@ -42,12 +48,11 @@ def _linha_para_dict(linha):
 
 
 def adicionar_item(usuario_id, produto_id, quantidade):
-    """Adiciona um produto à lista de compras de um usuário.
-
-    Retorna None se o usuário ou o produto não existirem.
-    Se o produto já estiver ativo na lista do usuário, soma a
-    quantidade informada em vez de criar uma linha duplicada.
     """
+    Adiciona um produto à lista ou incrementa a quantidade se já existir.
+    Regra de Negócio: Impede a criação de registros duplicados do mesmo item ativo.
+    """
+    # Validação de Dependências: Garante que Usuário e Produto existem antes de prosseguir
     if buscar_usuario(usuario_id) is None:
         return None
     if buscar_produto(produto_id) is None:
@@ -56,6 +61,7 @@ def adicionar_item(usuario_id, produto_id, quantidade):
     conexao = get_connection()
     cursor = conexao.cursor()
 
+    # Verifica se o produto já está presente no carrinho ativo do usuário
     cursor.execute(
         """
         SELECT * FROM pedidos
@@ -66,6 +72,7 @@ def adicionar_item(usuario_id, produto_id, quantidade):
     existente = cursor.fetchone()
 
     if existente:
+        # Lógica de Atualização: Soma a nova quantidade à existente
         nova_quantidade = existente["quantidade"] + quantidade
         cursor.execute(
             "UPDATE pedidos SET quantidade = ?, atualizado_em = ? WHERE id = ?",
@@ -76,6 +83,7 @@ def adicionar_item(usuario_id, produto_id, quantidade):
             cursor, pedido_id, usuario_id, produto_id, nova_quantidade, "atualizado"
         )
     else:
+        # Lógica de Inserção: Cria um novo item na lista
         agora_str = agora()
         cursor.execute(
             """
@@ -85,7 +93,7 @@ def adicionar_item(usuario_id, produto_id, quantidade):
             """,
             (usuario_id, produto_id, quantidade, agora_str, agora_str),
         )
-        pedido_id = cursor.lastrowid
+        pedido_id = cursor.lastrowid  # Recupera o ID gerado pelo AUTOINCREMENT
         _registrar_historico(
             cursor, pedido_id, usuario_id, produto_id, quantidade, "adicionado"
         )
@@ -96,12 +104,17 @@ def adicionar_item(usuario_id, produto_id, quantidade):
 
 
 def listar_itens_usuario(usuario_id, incluir_removidos=False):
+    """
+    Retorna os itens da lista do usuário utilizando JOIN relacional.
+    - JOIN: Combina colunas da tabela 'pedidos' com a tabela 'produtos'.
+    """
     if buscar_usuario(usuario_id) is None:
         return None
 
     conexao = get_connection()
     cursor = conexao.cursor()
 
+    # Construção condicional da query para tratar o Soft Delete
     filtro_status = "" if incluir_removidos else "AND p.status = 'ativo'"
     cursor.execute(
         f"""
@@ -116,12 +129,16 @@ def listar_itens_usuario(usuario_id, incluir_removidos=False):
         """,
         (usuario_id,),
     )
+    # List Comprehension: Transforma cada linha do banco em dicionário formatado
     itens = [_linha_para_dict(linha) for linha in cursor.fetchall()]
     conexao.close()
     return itens
 
 
 def buscar_item(pedido_id):
+    """
+    Busca os detalhes completos de um item específico da lista pelo seu ID.
+    """
     conexao = get_connection()
     cursor = conexao.cursor()
     cursor.execute(
@@ -142,8 +159,11 @@ def buscar_item(pedido_id):
 
 
 def atualizar_item(pedido_id, quantidade):
-    """Atualiza a quantidade de um item ativo na lista de um usuário."""
+    """
+    Atualiza a quantidade de um item mantendo a rastreabilidade no histórico.
+    """
     item_atual = buscar_item(pedido_id)
+    # Garante que só é possível alterar itens existentes e que estejam com status 'ativo'
     if item_atual is None or item_atual["status"] != "ativo":
         return None
 
@@ -167,7 +187,9 @@ def atualizar_item(pedido_id, quantidade):
 
 
 def remover_item(pedido_id):
-    """Remove (soft delete) um item da lista de compras do usuário."""
+    """
+    Executa o Soft Delete: altera o status para 'removido' sem excluir o registro do banco.
+    """
     item_atual = buscar_item(pedido_id)
     if item_atual is None or item_atual["status"] != "ativo":
         return False
@@ -192,6 +214,10 @@ def remover_item(pedido_id):
 
 
 def listar_historico_usuario(usuario_id):
+    """
+    Consulta a tabela de auditoria 'pedidos_historico' ordenada da alteração 
+    mais recente para a mais antiga (DESC).
+    """
     if buscar_usuario(usuario_id) is None:
         return None
 

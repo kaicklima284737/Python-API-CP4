@@ -28,7 +28,12 @@ dicionários/listas (JSON), e o SQLite substitui o antigo arquivo
 Passo a passo (Windows, Linux ou macOS):
 
 ```bash
-# 1. Crie o ambiente virtual
+
+# 1. Entre na Pasta chamada api_usuarios.
+
+cd api_usuarios
+
+# 2. Crie o ambiente virtual
 python -m venv .venv
 ```
 
@@ -47,10 +52,10 @@ source .venv/bin/activate
 ```
 
 ```bash
-# 2. Instale as dependências
+# 3. Instale as dependências
 pip install -r requirements.txt
 
-# 3. Suba o servidor
+# 4. Suba o servidor
 uvicorn main:app --reload
 ```
 
