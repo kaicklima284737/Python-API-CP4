@@ -1,5 +1,14 @@
 # API de Usuários & Lista de Compras
 
+| Nome dos integrantes | RMs |
+|---|---|
+|Kaick Lima Silva | (RM: 574060)|
+|Gustavo Basso | (RM: 572623)|
+|Guilherme Sales | (RM: 572933)|
+|Pedro Feltrin Geraldes | (RM: 569038)|
+|Guilherme Kozikoski Failla | (RM: 571611)|
+
+
 API em Python com FastAPI para cadastro de usuários, catálogo de produtos e
 lista de compras individual por usuário, persistidos em um banco de dados
 relacional **SQLite**. Inclui também uma landing page simples (HTML/CSS/JS)
@@ -174,3 +183,4 @@ Interface web simples com três abas:
 Todas as ações da página usam a própria API (`fetch`) e refletem
 imediatamente qualquer alteração feita — não há necessidade de recarregar a
 página.
+
