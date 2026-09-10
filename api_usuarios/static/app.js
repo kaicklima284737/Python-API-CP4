@@ -10,82 +10,66 @@ let quantidadeModal = 1;
 
 // Mapeamento preciso de imagens para e-commerce de supermercado (1 e 2)
 const galeriaPorPalavraChave = {
-  // 1. Carne - 2 imagens de carne moída crua
   carne: [
     "https://img.freepik.com/fotos-premium/imagens-de-carne-crua-imagens-de-carne-bovina-crua-imagens-de-carne-suina-crua-imagens-de-carne-processada-em-restaurantes_848048-6848.jpg?w=2000",
     "https://tse2.mm.bing.net/th/id/OIP.RzJI1P2yxR_u9Lx3RVV95wHaGC?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
   ],
-  // 2. Arroz - 2 imagens de arroz cru
   arroz: [
     "https://th.bing.com/th/id/OIP.7Wyh8u8L8TjhSVdLnShj9AHaHa?w=214&h=214&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3",
     "https://tse1.mm.bing.net/th/id/OIP.5ZJZJZJZJZJZJZJZJZJZJZJZJZJZJZJZ?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
   ],
-  // 3. Feijão - 2 imagens de feijão cru
   feijao: [
     "https://carrefourbrfood.vtexassets.com/arquivos/ids/16593089/feijao-carioca-tipo-1-broto-legal-1-kg-1.jpg?v=637552304969170000",
     "https://carrefourbrfood.vtexassets.com/arquivos/ids/16593089/feijao-carioca-tipo-1-broto-legal-1-kg-1.jpg?v=637552304969170000"
   ],
-  // 4. Papel Higiênico - 2 imagens de papel higiênico
   papel: [
     "https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500&auto=format&fit=crop&q=80",
     "https://th.bing.com/th/id/OIP.r5mKN_-OWshTc9T6BRyhcgHaHa?w=204&h=204&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3"
   ],
-  // 5. Batata - 2 imagens de batatas cruas
   batata: [
     "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&auto=format&fit=crop&q=80",
     "https://tse1.explicit.bing.net/th/id/OIP.WLKplkBUUG9ebRzQKeXdRgHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
   ],
-  // 6. Tomate - 2 imagens de tomates crus frescos
   tomate: [
     "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&auto=format&fit=crop&q=80",
     "https://tse3.mm.bing.net/th/id/OIP.whmPtXjX7WeuvpgiQMzJtgHaE7?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
   ],
-  // 7. Manteiga - 2 imagens funcionais de manteiga
   manteiga: [
     "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80",
     "https://muffatosupermercados.vtexassets.com/arquivos/ids/337657-800-auto?v=638061914258370000&width=800&height=auto&aspect=true"
   ],
-  // 8. Queijo - 2 imagens exclusivas de queijos
   queijo: [
     "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=500&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500&auto=format&fit=crop&q=80"
   ],
-  // 9. Detergente - 2 imagens de detergente/sabão líquido
   detergente: [
     "https://tse1.mm.bing.net/th/id/OIP.AoSww3yvAQDoS4wtlZ1AoQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     "https://joripapel.com.br/cdn/shop/products/agifacil500ml.jpg?v=1595523460&width=1946"
   ],
-  // 10. Sabão em pó - 2 imagens de sabão em pó / produtos para roupas
   sabao: [
     "https://tse3.mm.bing.net/th/id/OIP.K4ojqhgEALPI6eLAjpFxlQHaIP?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     "https://tse4.mm.bing.net/th/id/OIP.H9h-GfCigbQ_CzYS6u8xdgHaHa?r=0&w=1000&h=1000&rs=1&pid=ImgDetMain&o=7&rm=3"
   ],
-  // 11. Macarrão - 2 imagens de pacotes de macarrão seco cru
   macarrao: [
     "https://destro.fbitsstatic.net/img/p/macarrao-espaguetinho-9-com-ovos-renata-500g-77306/263860-1.jpg?w=1000&h=1000&v=202501031703&qs=ignore",
     "https://renata.com.br/images/produtos/134/renata-imagem-produtos-macarrao-renata-ovos-espaguetinho-9-embalagem-mini.png"
   ],
-  // 12. Açúcar - 2 imagens de açúcar cristal/refinado
   acucar: [
-    "https://tse3.mm.bing.net/th/id/OIP.sqBcnO3YxRNYRbfK7ZPu9wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "https://www.syspanimagens.com.br/img/07891910000197.jpg",
     "https://www.syspanimagens.com.br/img/07891910000197.jpg"
   ],
-  // 13. Molho de Tomate - 2 imagens de molho/extrato de tomate
   molho: [
     "https://tse1.mm.bing.net/th/id/OIP.bQ9opcnEIfKcfZ3VyeaE2AHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     "https://receitadaboa.com.br/wp-content/uploads/2024/04/iStock-167229436.jpg"
   ],
-  // 14. Óleo de Soja - 2 imagens funcionais de garrafas de óleo
   oleo: [
     "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1620706857399-e1b37c065db6?w=500&auto=format&fit=crop&q=80"
   ],
-  // 15. Pão de Forma - 2 imagens de pão de forma ensacado / fatiado
   pao: [
     "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=500&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80"
   ],
-  // Itens secundários de suporte
   cafe: [
     "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=500&auto=format&fit=crop&q=80"
@@ -111,7 +95,6 @@ const galeriaPorPalavraChave = {
 const imagemPadrao1 = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80";
 const imagemPadrao2 = "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=500&auto=format&fit=crop&q=80";
 
-// Função para buscar as 2 imagens com base no nome do produto
 function obterImagensProduto(produto) {
   if (!produto || !produto.nome) return [imagemPadrao1, imagemPadrao2];
 
@@ -129,7 +112,6 @@ function obterImagensProduto(produto) {
   return [imagemPadrao1, imagemPadrao2];
 }
 
-// Utilitário de chamadas à API
 async function api(path, options = {}) {
   const resposta = await fetch(path, {
     headers: { "Content-Type": "application/json" },
@@ -301,7 +283,7 @@ function renderGridProdutos() {
 
     card.innerHTML = `
       <div class="product-badge">OFERTA</div>
-      <img src="${imgs[0]}" alt="${produto.nome}" class="product-img">
+      <img src="${imgs[0]}" alt="${produto.nome}" class="product-img" onerror="this.onerror=null; this.src='${imgs[1]}';">
       <div class="product-info">
         <div class="product-title">${produto.nome}</div>
         <div class="product-category">${produto.categoria ?? "Geral"}</div>
@@ -326,8 +308,27 @@ function abrirModalProduto(produto) {
   quantidadeModal = 1;
 
   const imgs = obterImagensProduto(produto);
-  document.getElementById("modal-img-1").src = imgs[0];
-  document.getElementById("modal-img-2").src = imgs[1];
+  const img1 = document.getElementById("modal-img-1");
+  const img2 = document.getElementById("modal-img-2");
+
+  if (img1) {
+    img1.style.display = "block";
+    img1.onerror = () => {
+      img1.style.display = "none";
+      if (img2) img2.style.display = "block";
+    };
+    img1.src = imgs[0];
+  }
+
+  if (img2) {
+    img2.style.display = "block";
+    img2.onerror = () => {
+      img2.style.display = "none";
+      if (img1) img1.style.display = "block";
+    };
+    img2.src = imgs[1];
+  }
+
   document.getElementById("modal-nome").textContent = produto.nome;
   document.getElementById("modal-categoria").textContent = produto.categoria ?? "Geral";
   document.getElementById("modal-descricao").textContent = `Item do setor de ${produto.categoria ?? "Geral"}: ${produto.nome}. Embalagem padrão de mercado.`;
@@ -353,37 +354,84 @@ function atualizarValoresModal() {
   document.getElementById("modal-preco-total").textContent = formatarPreco(precoTotal);
 }
 
-// Adiciona o produto exibido no modal diretamente para o Usuário Selecionado no momento
+// Exibe notificação temporária no topo da imagem principal do modal (sem travar a tela)
+function exibirAvisoSobreImagem(texto) {
+  const imgElement = document.getElementById("modal-img-1");
+  if (!imgElement) return;
+
+  const containerPai = imgElement.parentElement;
+  if (containerPai) {
+    containerPai.style.position = "relative";
+  }
+
+  let aviso = document.getElementById("aviso-topo-imagem");
+  if (!aviso) {
+    aviso = document.createElement("div");
+    aviso.id = "aviso-topo-imagem";
+    aviso.style.cssText = `
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #28a745;
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      z-index: 20;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: opacity 0.3s ease;
+      width: 90%;
+      pointer-events: none;
+    `;
+    if (containerPai) containerPai.appendChild(aviso);
+  }
+
+  aviso.textContent = texto;
+  aviso.style.display = "block";
+  aviso.style.opacity = "1";
+
+  setTimeout(() => {
+    aviso.style.opacity = "0";
+    setTimeout(() => {
+      aviso.style.display = "none";
+    }, 300);
+  }, 2500);
+}
+
 async function adicionarAoCarrinhoPeloModal() {
   const usuarioId = usuarioSelecionadoId();
 
   if (!usuarioId) {
-    alert("Nenhum usuário selecionado! Selecione ou cadastre uma conta na aba 'Meu Carrinho'.");
-    fecharModalProduto();
+    exibirAvisoSobreImagem("Selecione um usuário ativo antes de adicionar!");
     return;
   }
 
   try {
+    const precoUnitario = produtoModalSelecionado.preco;
+    const valorTotal = precoUnitario * quantidadeModal;
+
     await api("/pedidos", {
       method: "POST",
       body: JSON.stringify({
         usuario_id: usuarioId,
         produto_id: produtoModalSelecionado.id,
         quantidade: quantidadeModal,
+        valor_total: valorTotal,
       }),
     });
 
     const usuarioAtual = usuariosCache.find((u) => u.id === usuarioId);
     const nomeUsuario = usuarioAtual ? usuarioAtual.nome : `Usuário ${usuarioId}`;
 
-    alert(`✅ ${quantidadeModal}x "${produtoModalSelecionado.nome}" adicionado(s) ao carrinho de ${nomeUsuario}!`);
-    fecharModalProduto();
+    exibirAvisoSobreImagem(`produto adicionado ao carrinho de ${nomeUsuario}`);
 
-    // Atualiza a tabela do carrinho
     await carregarItensDoUsuarioSelecionado();
     if (historicoVisivel) await carregarHistorico();
   } catch (erro) {
-    alert(`Erro ao adicionar item ao carrinho: ${erro.message}`);
+    exibirAvisoSobreImagem(`Erro ao adicionar: ${erro.message}`);
   }
 }
 
@@ -486,11 +534,23 @@ document.getElementById("form-item").addEventListener("submit", async (evento) =
   }
 
   try {
+    const produto = produtosCache.find((p) => p.id === produtoId);
+    const valorTotal = produto ? produto.preco * quantidade : 0;
+
     await api("/pedidos", {
       method: "POST",
-      body: JSON.stringify({ usuario_id: usuarioId, produto_id: produtoId, quantidade }),
+      body: JSON.stringify({
+        usuario_id: usuarioId,
+        produto_id: produtoId,
+        quantidade,
+        valor_total: valorTotal,
+      }),
     });
-    mostrarMensagem("msg-lista", "Item adicionado ao carrinho!");
+
+    const usuarioAtual = usuariosCache.find((u) => u.id === usuarioId);
+    const nomeUsuario = usuarioAtual ? usuarioAtual.nome : `Usuário ${usuarioId}`;
+
+    mostrarMensagem("msg-lista", `produto adicionado ao carrinho de ${nomeUsuario}`);
     document.getElementById("item-quantidade").value = 1;
     await carregarItensDoUsuarioSelecionado();
     if (historicoVisivel) await carregarHistorico();
